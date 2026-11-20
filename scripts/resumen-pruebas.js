@@ -1,4 +1,6 @@
-// Genera un resumen en Markdown a partir de los resultados de Jest. const fs = require('fs');
+// Genera un resumen en Markdown a partir de los resultados de Jest.
+const fs = require('fs');
+
 function leer(ruta) {
   try {
     return JSON.parse(fs.readFileSync(ruta, "utf8"));
