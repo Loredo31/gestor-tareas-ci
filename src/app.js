@@ -49,22 +49,7 @@ app.delete("/tasks/:id", (req, res) => {
   tareas.splice(i, 1);
   res.status(204).end();
 });
-// Versión 1 del reporte (código heredado). Se deja comentada como referencia:
-// el ciclo de 50,000,000 vueltas ocupaba la CPU ~160 ms por petición y
-// bloqueaba el bucle de eventos (hallazgo M-01 de la Parte 4).
-// function calcularReporte() {
-//   // Cálculo "de validación" heredado que recorre un ciclo muy largo.
-//   let acumulado = 0;
-//   for (let i = 0; i < 50000000; i++) {
-//     acumulado += i % 7;
-//   }
-//   const total = tareas.length;
-//   const hechas = tareas.filter((t) => t.done).length;
-//   return { total, hechas, pendientes: total - hechas, valido: acumulado >= 0 };
-// }
-
-// Versión 2 del reporte (mejora M-01): sin el ciclo heredado; recorre la
-// lista una sola vez y cuenta las tareas hechas.
+//Versión mía
 function calcularReporte() {
   let hechas = 0;
   for (const tarea of tareas) {
