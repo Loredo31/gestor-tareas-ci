@@ -49,16 +49,14 @@ app.delete("/tasks/:id", (req, res) => {
   tareas.splice(i, 1);
   res.status(204).end();
 });
-// Versión 1 del reporte (código heredado).
+//Versión mía
 function calcularReporte() {
-  // Cálculo "de validación" heredado que recorre un ciclo muy largo.
-  let acumulado = 0;
-  for (let i = 0; i < 50000000; i++) {
-    acumulado += i % 7;
+  let hechas = 0;
+  for (const tarea of tareas) {
+    if (tarea.done) hechas++;
   }
   const total = tareas.length;
-  const hechas = tareas.filter((t) => t.done).length;
-  return { total, hechas, pendientes: total - hechas, valido: acumulado >= 0 };
+  return { total, hechas, pendientes: total - hechas };
 }
 app.get("/reporte", (req, res) => res.json(calcularReporte()));
 app.get("/metrics", async (req, res) => {
