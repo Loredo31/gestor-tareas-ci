@@ -2,7 +2,7 @@ const request = require("supertest");
 const app = require("../src/app");
 beforeEach(() => app.locals.reiniciar());
 describe("Salud y métricas", () => {
-  test("GET /health responde ok", async () => { 
+  test("GET /health responde ok", async () => {
     const res = await request(app).get("/health");
     expect(res.status).toBe(200);
     //expect(res.status).toBe(201);
@@ -66,5 +66,12 @@ describe("Reporte", () => {
     const res = await request(app).get("/reporte");
     expect(res.status).toBe(200);
     expect(res.body).toMatchObject({ total: 2, hechas: 1, pendientes: 1 });
+  });
+  test("GET /reporte responde en menos de 50 ms (regresión de rendimiento)", async () => {
+    const inicio = process.hrtime.bigint();
+    const res = await request(app).get("/reporte");
+    const ms = Number(process.hrtime.bigint() - inicio) / 1e6;
+    expect(res.status).toBe(200);
+    expect(ms).toBeLessThan(50);
   });
 });
